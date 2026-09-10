@@ -1,11 +1,14 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.QueteDTO;
 import com.example.backend.entity.Quete;
+import com.example.backend.mapper.QueteMapper;
 import com.example.backend.repository.QueteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QueteService {
@@ -18,23 +21,33 @@ public class QueteService {
     }
 
     // Returns all quests
-    public List<Quete> getAllQuetes() {
-        return queteRepository.findAll();
+    public List<QueteDTO> getAllQuetes() {
+        return queteRepository.findAll()
+                .stream()
+                .map(QueteMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     // Returns a quest by its ID
-    public Optional<Quete> getQueteById(Integer id) {
-        return queteRepository.findById(id);
+    public Optional<QueteDTO> getQueteById(Integer id) {
+        return queteRepository.findById(id)
+                .map(QueteMapper::toDTO);
     }
 
     // Creates a new quest
-    public Quete createQuete(Quete quete) {
-        return queteRepository.save(quete);
+    public QueteDTO createQuete(QueteDTO dto) {
+        Quete quete = QueteMapper.toEntity(dto);
+        Quete savedQuete = queteRepository.save(quete);
+
+        return QueteMapper.toDTO(savedQuete);
     }
 
     // Updates an existing quest
-    public Quete updateQuete(Quete quete) {
-        return queteRepository.save(quete);
+    public QueteDTO updateQuete(QueteDTO dto) {
+        Quete quete = QueteMapper.toEntity(dto);
+        Quete updatedQuete = queteRepository.save(quete);
+
+        return QueteMapper.toDTO(updatedQuete);
     }
 
     // Deletes a quest by its ID

@@ -1,7 +1,8 @@
 package com.example.backend.controller;
 
-import com.example.backend.entity.Assignation;
+import com.example.backend.dto.AssignationDTO;
 import com.example.backend.service.AssignationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,13 @@ public class AssignationController {
 
     // Returns all assignments
     @GetMapping
-    public List<Assignation> getAllAssignations() {
+    public List<AssignationDTO> getAllAssignations() {
         return assignationService.getAllAssignations();
     }
 
     // Returns an assignment by its ID
     @GetMapping("/{id}")
-    public ResponseEntity<Assignation> getAssignationById(@PathVariable Integer id) {
+    public ResponseEntity<AssignationDTO> getAssignationById(@PathVariable Integer id) {
         return assignationService.getAssignationById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -34,31 +35,24 @@ public class AssignationController {
 
     // Creates a new assignment
     @PostMapping
-    public Assignation createAssignation(@RequestBody Assignation assignation) {
-        return assignationService.createAssignation(assignation);
+    public AssignationDTO createAssignation(
+            @Valid @RequestBody AssignationDTO assignationDTO) {
+
+        return assignationService.createAssignation(assignationDTO);
     }
 
     // Updates an existing assignment
     @PutMapping("/{id}")
-    public ResponseEntity<Assignation> updateAssignation(
+    public ResponseEntity<AssignationDTO> updateAssignation(
             @PathVariable Integer id,
-            @RequestBody Assignation assignation) {
+            @Valid @RequestBody AssignationDTO assignationDTO) {
 
-        return assignationService.getAssignationById(id)
-                .map(existingAssignation -> {
+        if (assignationService.getAssignationById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-                    // Keep the existing assignment date if it is not provided
-                    if (assignation.getDateAssignee() == null) {
-                        assignation.setDateAssignee(
-                                existingAssignation.getDateAssignee());
-                    }
-
-                    assignation.setId(id);
-
-                    return ResponseEntity.ok(
-                            assignationService.updateAssignation(assignation));
-                })
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(
+                assignationService.updateAssignation(id, assignationDTO));
     }
 
     // Deletes an assignment by its ID

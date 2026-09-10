@@ -1,7 +1,8 @@
 package com.example.backend.controller;
 
-import com.example.backend.entity.Aventurier;
+import com.example.backend.dto.AventurierDTO;
 import com.example.backend.service.AventurierService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,13 @@ public class AventurierController {
 
     // Returns all adventurers
     @GetMapping
-    public List<Aventurier> getAllAventuriers() {
+    public List<AventurierDTO> getAllAventuriers() {
         return aventurierService.getAllAventuriers();
     }
 
     // Returns an adventurer by its ID
     @GetMapping("/{id}")
-    public ResponseEntity<Aventurier> getAventurierById(@PathVariable Integer id) {
+    public ResponseEntity<AventurierDTO> getAventurierById(@PathVariable Integer id) {
         return aventurierService.getAventurierById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -34,21 +35,24 @@ public class AventurierController {
 
     // Creates a new adventurer
     @PostMapping
-    public Aventurier createAventurier(@RequestBody Aventurier aventurier) {
-        return aventurierService.createAventurier(aventurier);
+    public AventurierDTO createAventurier(
+            @Valid @RequestBody AventurierDTO aventurierDTO) {
+
+        return aventurierService.createAventurier(aventurierDTO);
     }
 
     // Updates an existing adventurer
     @PutMapping("/{id}")
-    public ResponseEntity<Aventurier> updateAventurier(
+    public ResponseEntity<AventurierDTO> updateAventurier(
             @PathVariable Integer id,
-            @RequestBody Aventurier aventurier) {
+            @Valid @RequestBody AventurierDTO aventurierDTO) {
 
         return aventurierService.getAventurierById(id)
                 .map(existingAventurier -> {
-                    aventurier.setId(id);
+                    aventurierDTO.setId(id);
+
                     return ResponseEntity.ok(
-                            aventurierService.updateAventurier(aventurier));
+                            aventurierService.updateAventurier(aventurierDTO));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

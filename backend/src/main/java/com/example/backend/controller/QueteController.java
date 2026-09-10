@@ -1,7 +1,8 @@
 package com.example.backend.controller;
 
-import com.example.backend.entity.Quete;
+import com.example.backend.dto.QueteDTO;
 import com.example.backend.service.QueteService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,13 @@ public class QueteController {
 
     // Returns all quests
     @GetMapping
-    public List<Quete> getAllQuetes() {
+    public List<QueteDTO> getAllQuetes() {
         return queteService.getAllQuetes();
     }
 
     // Returns a quest by its ID
     @GetMapping("/{id}")
-    public ResponseEntity<Quete> getQueteById(@PathVariable Integer id) {
+    public ResponseEntity<QueteDTO> getQueteById(@PathVariable Integer id) {
         return queteService.getQueteById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -34,21 +35,24 @@ public class QueteController {
 
     // Creates a new quest
     @PostMapping
-    public Quete createQuete(@RequestBody Quete quete) {
-        return queteService.createQuete(quete);
+    public QueteDTO createQuete(
+            @Valid @RequestBody QueteDTO queteDTO) {
+
+        return queteService.createQuete(queteDTO);
     }
 
     // Updates an existing quest
     @PutMapping("/{id}")
-    public ResponseEntity<Quete> updateQuete(
+    public ResponseEntity<QueteDTO> updateQuete(
             @PathVariable Integer id,
-            @RequestBody Quete quete) {
+            @Valid @RequestBody QueteDTO queteDTO) {
 
         return queteService.getQueteById(id)
                 .map(existingQuete -> {
-                    quete.setId(id);
+                    queteDTO.setId(id);
+
                     return ResponseEntity.ok(
-                            queteService.updateQuete(quete));
+                            queteService.updateQuete(queteDTO));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
