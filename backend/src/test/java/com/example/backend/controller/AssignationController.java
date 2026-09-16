@@ -18,11 +18,13 @@ public class AssignationController {
         this.assignationService = assignationService;
     }
 
+    // Retourne toutes les assignations
     @GetMapping
     public List<AssignationDTO> getAllAssignations() {
         return assignationService.getAllAssignations();
     }
 
+    // Retourne une assignation par son ID
     @GetMapping("/{id}")
     public ResponseEntity<AssignationDTO> getAssignationById(
             @PathVariable Integer id) {
@@ -32,6 +34,7 @@ public class AssignationController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Crée une nouvelle assignation
     @PostMapping
     public AssignationDTO createAssignation(
             @Valid @RequestBody AssignationDTO assignationDTO) {
@@ -39,6 +42,7 @@ public class AssignationController {
         return assignationService.createAssignation(assignationDTO);
     }
 
+    // Modifie une assignation existante
     @PutMapping("/{id}")
     public ResponseEntity<AssignationDTO> updateAssignation(
             @PathVariable Integer id,
@@ -53,6 +57,7 @@ public class AssignationController {
         );
     }
 
+    // Supprime une assignation
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAssignation(
             @PathVariable Integer id) {

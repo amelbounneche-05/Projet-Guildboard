@@ -64,6 +64,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- REST client for tests -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-restclient</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
