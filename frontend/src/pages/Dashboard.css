@@ -1,0 +1,287 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 25px 40px 50px;
+  background-color: #fff6d8;
+  color: #171717;
+}
+
+/* INTRODUCTION */
+
+.dashboard-intro {
+  position: relative;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.dashboard-intro h2 {
+  margin: 0 0 8px;
+  color: #e21d25;
+  font-size: 22px;
+}
+
+.dashboard-intro p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.add-quest-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  padding: 8px 18px;
+  border: none;
+  border-radius: 20px;
+
+  background-color: #d93636;
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-quest-button:hover {
+  background-color: #9e1b1b;
+}
+
+/* TABLEAU */
+
+.quest-board {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 90px;
+
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* LISTE */
+
+.quest-list,
+.selected-quest {
+  background-color: #fffdf7;
+  border: 2px solid #e21d25;
+  padding: 20px;
+}
+
+.quest-list h3,
+.selected-quest h3 {
+  margin: 0 0 18px;
+  text-align: center;
+
+  color: #e21d25;
+  font-size: 17px;
+}
+
+/* RECHERCHE */
+
+.quest-search {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 7px 12px;
+
+  border: none;
+  border-radius: 20px;
+
+  background-color: #fff1c9;
+
+  font-size: 11px;
+  outline: none;
+}
+
+/* FILTRES */
+
+.quest-filters {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.quest-filters button {
+  border: none;
+  border-radius: 15px;
+
+  padding: 6px 12px;
+
+  background-color: #fff1c9;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.quest-filters .filter-active {
+  background-color: #d93636;
+  color: white;
+}
+
+/* CARTES */
+
+.quest-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quest-card {
+  position: relative;
+
+  background-color: #fff0d2;
+  border-radius: 10px;
+
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.quest-card::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 6px;
+}
+
+/* Couleurs des difficultés */
+
+.quest-card.facile::before {
+  background-color: #28c840;
+}
+
+.quest-card.moyen::before {
+  background-color: #2675d8;
+}
+
+.quest-card.difficile::before {
+  background-color: #ffe600;
+}
+
+.quest-card-content {
+  padding: 7px 10px 7px 15px;
+}
+
+.quest-card h4 {
+  margin: 0 0 2px;
+  font-size: 12px;
+}
+
+.quest-card p {
+  margin: 0 0 5px;
+  font-size: 9px;
+}
+
+/* INFOS CARTE */
+
+.quest-card-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 9px;
+}
+
+.status {
+  margin-left: auto;
+
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.status.disponible {
+  background-color: #fff000;
+}
+
+.status.en-cours {
+  background-color: #64a9ff;
+}
+
+.status.terminée {
+  background-color: #39e65d;
+}
+
+.delete-button {
+  border: none;
+  border-radius: 50%;
+
+  width: 20px;
+  height: 20px;
+
+  background-color: #171717;
+  color: white;
+
+  font-size: 9px;
+  cursor: pointer;
+}
+
+/* QUÊTE SÉLECTIONNÉE */
+
+.selected-quest {
+  min-height: 300px;
+}
+
+.empty-quest {
+  height: 250px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.quest-icon {
+  width: 90px;
+  height: 90px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid #e21d25;
+  border-radius: 50%;
+
+  font-size: 45px;
+  margin-bottom: 15px;
+}
+
+.empty-quest p {
+  margin: 0 0 8px;
+  color: #777;
+  font-size: 14px;
+}
+
+.empty-quest span {
+  color: #777;
+  font-size: 11px;
+}
+
+.quest-selected-content {
+  font-size: 12px;
+}
+
+.quest-selected-content h4 {
+  color: #e21d25;
+  font-size: 16px;
+}
+
+.quest-selected-content p {
+  line-height: 1.5;
+}
+
+.quest-selected-content > div {
+  margin-top: 10px;
+}
+
+.rewards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px !important;
+}
+
+.rewards span {
+  padding: 8px 12px;
+  background-color: #f2f58b;
+}
