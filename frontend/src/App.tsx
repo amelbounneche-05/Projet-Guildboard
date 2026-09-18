@@ -1,122 +1,150 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+// On importe useEffect pour lancer une action lorsque le composant est chargé.
+// On importe useState pour stocker les données et les états de l'application.
+import { useEffect, useState } from "react";
 
+// On importe notre Header.
+import Header from "./components/Header";
+
+// On importe les pages que l'on affiche.
+import Dashboard from "./pages/Dashboard";
+import QuestForm from "./pages/QuestForm";
+
+// On importe le type Quete créé dans types/quest.ts.
+import type { Quete } from "./types/quest";
+
+// On importe la fonction qui récupère les quêtes depuis le backend.
+import { getQuetes } from "./services/questService";
+
+// Composant principal de notre application.
 function App() {
-  const [count, setCount] = useState(0)
 
+  // Permet de savoir si on affiche le formulaire de création
+  // ou le Dashboard.
+  const [showQuestForm, setShowQuestForm] = useState(false);
+
+  // Stocke les quêtes récupérées depuis le backend.
+  //
+  // Au début, le tableau est vide car nous n'avons pas encore
+  // récupéré les données.
+  const [quetes, setQuetes] = useState<Quete[]>([]);
+
+  // Permet de savoir si le chargement des quêtes est en cours.
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Stocke un éventuel message d'erreur.
+  //
+  // "string | null" signifie :
+  // - string → il y a un message d'erreur
+  // - null → il n'y a pas d'erreur
+  const [error, setError] = useState<string | null>(null);
+
+  // useEffect permet d'exécuter du code lorsque le composant App
+  // est chargé pour la première fois.
+  useEffect(() => {
+
+    // Fonction asynchrone qui va récupérer les quêtes.
+    async function chargerQuetes() {
+
+      try {
+
+        // On indique que le chargement commence.
+        setIsLoading(true);
+
+        // On supprime une ancienne erreur éventuelle.
+        setError(null);
+
+        // On appelle le service qui communique avec le backend.
+        //
+        // getQuetes() va envoyer :
+        // GET http://localhost:8081/api/quetes
+        const data = await getQuetes();
+
+        // On place les quêtes reçues dans notre state.
+        setQuetes(data);
+
+      } catch {
+
+        // Si la communication avec le backend échoue,
+        // on affiche un message d'erreur.
+        setError("Impossible de charger les quêtes.");
+
+      } finally {
+
+        // Dans tous les cas, le chargement est terminé.
+        setIsLoading(false);
+      }
+    }
+
+    // On lance la fonction.
+    chargerQuetes();
+
+  }, []);
+
+  // Fonction appelée lorsqu'on veut ouvrir le formulaire
+  // de création d'une nouvelle quête.
+  const handleAddQuest = () => {
+
+    // On affiche QuestForm.
+    setShowQuestForm(true);
+  };
+
+  // Fonction appelée lorsque QuestForm a réussi à créer
+  // une nouvelle quête dans le backend.
+  const handleQuestCreated = (createdQuest: Quete) => {
+
+    // On ajoute la nouvelle quête au tableau existant.
+    setQuetes((currentQuetes) => [
+      ...currentQuetes,
+      createdQuest,
+    ]);
+
+    // On ferme le formulaire.
+    setShowQuestForm(false);
+  };
+
+  // On retourne l'interface de notre application.
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      {/* Header présent sur toutes les pages. */}
+      <Header />
 
-      <div className="ticks"></div>
+      {/* Si showQuestForm vaut true, on affiche le formulaire. */}
+      {showQuestForm ? (
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        // Formulaire de création d'une quête.
+        <QuestForm
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+          // Fonction permettant de revenir au Dashboard.
+          onCancel={() => setShowQuestForm(false)}
+
+          // Fonction appelée après la création réussie
+          // de la quête dans le backend.
+          onCreated={handleQuestCreated}
+
+        />
+
+      ) : (
+
+        // Sinon, on affiche le Dashboard.
+        <Dashboard
+
+          // On transmet les quêtes récupérées au Dashboard.
+          quests={quetes}
+
+          // On transmet la fonction permettant d'ouvrir le formulaire.
+          onAddQuest={handleAddQuest}
+
+          // On transmet l'état de chargement.
+          isLoading={isLoading}
+
+          // On transmet l'éventuelle erreur.
+          error={error}
+
+        />
+      )}
     </>
-  )
+  );
 }
 
-export default App
+// On exporte App pour pouvoir l'utiliser dans main.tsx.
+export default App;
