@@ -1,11 +1,12 @@
 .dashboard {
   min-height: 100vh;
   padding: 25px 40px 50px;
-  background-color: #fff6d8;
-  color: #171717;
+  background: linear-gradient(
+    to bottom,
+    #ffe5a3,
+    #fffde8
+  );
 }
-
-/* INTRODUCTION */
 
 .dashboard-intro {
   position: relative;
@@ -28,14 +29,11 @@
   position: absolute;
   right: 0;
   bottom: 0;
-
   padding: 8px 18px;
   border: none;
   border-radius: 20px;
-
   background-color: #d93636;
   color: white;
-
   font-weight: 600;
   cursor: pointer;
 }
@@ -44,18 +42,13 @@
   background-color: #9e1b1b;
 }
 
-/* TABLEAU */
-
 .quest-board {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 90px;
-
   max-width: 1100px;
   margin: 0 auto;
 }
-
-/* LISTE */
 
 .quest-list,
 .selected-quest {
@@ -68,29 +61,20 @@
 .selected-quest h3 {
   margin: 0 0 18px;
   text-align: center;
-
   color: #e21d25;
   font-size: 17px;
 }
 
-/* RECHERCHE */
-
 .quest-search {
   width: 100%;
   box-sizing: border-box;
-
   padding: 7px 12px;
-
   border: none;
   border-radius: 20px;
-
   background-color: #fff1c9;
-
   font-size: 11px;
   outline: none;
 }
-
-/* FILTRES */
 
 .quest-filters {
   display: flex;
@@ -101,9 +85,7 @@
 .quest-filters button {
   border: none;
   border-radius: 15px;
-
   padding: 6px 12px;
-
   background-color: #fff1c9;
   font-size: 11px;
   cursor: pointer;
@@ -114,8 +96,6 @@
   color: white;
 }
 
-/* CARTES */
-
 .quest-cards {
   display: flex;
   flex-direction: column;
@@ -124,36 +104,32 @@
 
 .quest-card {
   position: relative;
-
   background-color: #fff0d2;
   border-radius: 10px;
-
   cursor: pointer;
   overflow: hidden;
 }
 
 .quest-card::before {
   content: "";
-
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-
   width: 6px;
 }
 
-/* Couleurs des difficultés */
+/* Couleur selon le statut de la quête. */
 
-.quest-card.facile::before {
+.quest-card.terminée::before {
   background-color: #28c840;
 }
 
-.quest-card.moyen::before {
+.quest-card.en-cours::before {
   background-color: #2675d8;
 }
 
-.quest-card.difficile::before {
+.quest-card.disponible::before {
   background-color: #ffe600;
 }
 
@@ -177,40 +153,43 @@
   display: flex;
   align-items: center;
   gap: 12px;
-
   font-size: 9px;
 }
 
 .status {
   margin-left: auto;
-
   padding: 3px 8px;
   border-radius: 10px;
   font-weight: 600;
 }
 
+/* Couleur du statut disponible. */
+
 .status.disponible {
   background-color: #fff000;
 }
+
+/* Couleur du statut en cours. */
 
 .status.en-cours {
   background-color: #64a9ff;
 }
 
+/* Couleur du statut terminée. */
+
 .status.terminée {
   background-color: #39e65d;
 }
 
+/* Bouton de suppression. */
+
 .delete-button {
   border: none;
   border-radius: 50%;
-
   width: 20px;
   height: 20px;
-
   background-color: #171717;
   color: white;
-
   font-size: 9px;
   cursor: pointer;
 }
@@ -223,26 +202,21 @@
 
 .empty-quest {
   height: 250px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   text-align: center;
 }
 
 .quest-icon {
   width: 90px;
   height: 90px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: 3px solid #e21d25;
   border-radius: 50%;
-
   font-size: 45px;
   margin-bottom: 15px;
 }

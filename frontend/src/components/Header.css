@@ -1,25 +1,24 @@
 header {
   display: flex;
   align-items: center;
+  padding: 20px 50px;
   justify-content: space-between;
-  padding: 10px 40px;
-  border-bottom: 2px solid #171717;
-  background-color: #fff6d8;
+  border-bottom: 3px solid #171717;
+  background-color: #ffe5a3;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .logo-container img {
-  width: 45px;
+  width: 60px;
   height: auto;
 }
 
 .logo-container h1 {
-  margin: 0;
   font-size: 24px;
   font-weight: 700;
   color: #171717;
@@ -32,25 +31,19 @@ header {
 header nav {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 40px;
 }
 
 header button {
-  padding: 8px 18px;
+  padding: 10px 20px;
   background: transparent;
-  border: none;
-  border-radius: 20px;
-  font-size: 14px;
+  border-radius: 60px;
+  font-size: 17px;
   font-weight: 600;
-  cursor: pointer;
-  color: #171717;
+  color: #000000;
 }
 
 header button.active {
   background-color: #e99a7c;
-  color: #171717;
-}
-
-header button:hover {
-  background-color: #e99a7c;
+  color: #000000;
 }

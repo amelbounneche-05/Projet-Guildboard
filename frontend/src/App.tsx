@@ -1,144 +1,145 @@
-// On importe useEffect pour lancer une action lorsque le composant est chargé.
-// On importe useState pour stocker les données et les états de l'application.
+// Imports first — JS needs to know these before running the rest
 import { useEffect, useState } from "react";
-
-// On importe notre Header.
 import Header from "./components/Header";
-
-// On importe les pages que l'on affiche.
 import Dashboard from "./pages/Dashboard";
 import QuestForm from "./pages/QuestForm";
-
-// On importe le type Quete créé dans types/quest.ts.
 import type { Quete } from "./types/quest";
+import { getQuetes, deleteQuete } from "./services/questService";
 
-// On importe la fonction qui récupère les quêtes depuis le backend.
-import { getQuetes } from "./services/questService";
-
-// Composant principal de notre application.
 function App() {
 
-  // Permet de savoir si on affiche le formulaire de création
-  // ou le Dashboard.
+  // Tracks whether the creation form should be shown
   const [showQuestForm, setShowQuestForm] = useState(false);
 
-  // Stocke les quêtes récupérées depuis le backend.
-  //
-  // Au début, le tableau est vide car nous n'avons pas encore
-  // récupéré les données.
+  // Stores the list of quests fetched from the BK (...)
   const [quetes, setQuetes] = useState<Quete[]>([]);
 
-  // Permet de savoir si le chargement des quêtes est en cours.
+  // Waiting for server response — shows loading
   const [isLoading, setIsLoading] = useState(true);
 
-  // Stocke un éventuel message d'erreur.
-  //
-  // "string | null" signifie :
-  // - string → il y a un message d'erreur
-  // - null → il n'y a pas d'erreur
+  // If error — shows the message
   const [error, setError] = useState<string | null>(null);
 
-  // useEffect permet d'exécuter du code lorsque le composant App
-  // est chargé pour la première fois.
+  // Runs code once, the first time the component appears
   useEffect(() => {
 
-    // Fonction asynchrone qui va récupérer les quêtes.
+    // Function that waits for the server response and fetches the quests
     async function chargerQuetes() {
 
       try {
 
-        // On indique que le chargement commence.
+        // Shows the loading state
         setIsLoading(true);
 
-        // On supprime une ancienne erreur éventuelle.
+        // Clears any previous error
         setError(null);
 
-        // On appelle le service qui communique avec le backend.
-        //
-        // getQuetes() va envoyer :
-        // GET http://localhost:8081/api/quetes
+        // Service that talks to the BK
+        // GET http://localhost:8080/api/quetes
         const data = await getQuetes();
 
-        // On place les quêtes reçues dans notre state.
+        // Stores the received quests
         setQuetes(data);
 
       } catch {
 
-        // Si la communication avec le backend échoue,
-        // on affiche un message d'erreur.
+        // If communication with the BK fails
         setError("Impossible de charger les quêtes.");
 
       } finally {
 
-        // Dans tous les cas, le chargement est terminé.
+        // Either way, loading is done
         setIsLoading(false);
       }
     }
 
-    // On lance la fonction.
+    // Calls the function defined above
     chargerQuetes();
 
   }, []);
 
-  // Fonction appelée lorsqu'on veut ouvrir le formulaire
-  // de création d'une nouvelle quête.
+  // Function to add a quest — opens the form
   const handleAddQuest = () => {
-
-    // On affiche QuestForm.
     setShowQuestForm(true);
   };
 
-  // Fonction appelée lorsque QuestForm a réussi à créer
-  // une nouvelle quête dans le backend.
+  // Function called when a quest is successfully created
   const handleQuestCreated = (createdQuest: Quete) => {
 
-    // On ajoute la nouvelle quête au tableau existant.
+    // Adds the new quest to the existing list
     setQuetes((currentQuetes) => [
       ...currentQuetes,
       createdQuest,
     ]);
 
-    // On ferme le formulaire.
+    // Closes the form — goes back to the dashboard
     setShowQuestForm(false);
   };
 
-  // On retourne l'interface de notre application.
+  // Function to delete a quest
+  const handleQuestDeleted = async (id: number) => {
+
+    try {
+
+      // Asks the backend to delete the quest
+      await deleteQuete(id);
+
+      // Removes the deleted quest from the displayed list
+      setQuetes((currentQuetes) =>
+        currentQuetes.filter((quete) => quete.id !== id)
+      );
+
+    } catch (error) {
+
+      // Displays the real error in the browser console
+      console.error("Erreur lors de la suppression :", error);
+
+      // Displays the error message on the page
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Impossible de supprimer la quête."
+      );
+    }
+  };
+
   return (
     <>
-      {/* Header présent sur toutes les pages. */}
-      <Header />
+      {/* Function that runs when clicking Quests — goes back to the Dashboard */}
+      <Header onQuetesClick={() => setShowQuestForm(false)} />
 
-      {/* Si showQuestForm vaut true, on affiche le formulaire. */}
+      {/* If true, show the form */}
       {showQuestForm ? (
 
-        // Formulaire de création d'une quête.
         <QuestForm
 
-          // Fonction permettant de revenir au Dashboard.
+          // Function called when clicking cancel
           onCancel={() => setShowQuestForm(false)}
 
-          // Fonction appelée après la création réussie
-          // de la quête dans le backend.
+          // Function called after successful creation in the BK
           onCreated={handleQuestCreated}
 
         />
 
       ) : (
 
-        // Sinon, on affiche le Dashboard.
+        // Otherwise, show the Dashboard
         <Dashboard
 
-          // On transmet les quêtes récupérées au Dashboard.
+          // Passes the fetched quests to the Dashboard
           quests={quetes}
 
-          // On transmet la fonction permettant d'ouvrir le formulaire.
+          // Passes the function that opens the form
           onAddQuest={handleAddQuest}
 
-          // On transmet l'état de chargement.
+          // Passes the loading state
           isLoading={isLoading}
 
-          // On transmet l'éventuelle erreur.
+          // Passes the error state
           error={error}
+
+          // Passes the function that deletes a quest
+          onDeleteQuest={handleQuestDeleted}
 
         />
       )}
@@ -146,5 +147,4 @@ function App() {
   );
 }
 
-// On exporte App pour pouvoir l'utiliser dans main.tsx.
 export default App;

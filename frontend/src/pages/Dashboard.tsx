@@ -1,11 +1,10 @@
-// On importe useState pour gérer la quête sélectionnée,
-// la recherche et le filtre.
+// On importe useState pour gérer les données qui changent dans le Dashboard.
 import { useState } from "react";
 
 // On importe le fichier CSS du Dashboard.
 import "./Dashboard.css";
 
-// On importe le vrai type Quete utilisé par notre API.
+// On importe le type Quete.
 import type { Quete } from "../types/quest";
 
 // On définit les données que le Dashboard reçoit depuis App.tsx.
@@ -13,22 +12,26 @@ interface DashboardProps {
   // Tableau des quêtes récupérées depuis le backend.
   quests: Quete[];
 
-  // Fonction qui permet d'ouvrir le formulaire de création.
+  // Fonction permettant d'ouvrir le formulaire de création.
   onAddQuest: () => void;
 
-  // Indique si les quêtes sont encore en train d'être chargées.
+  // Indique si les quêtes sont encore en chargement.
   isLoading: boolean;
 
   // Contient le message d'erreur s'il y en a une.
   error: string | null;
+
+  // Fonction permettant de supprimer une quête.
+  onDeleteQuest: (id: number) => void;
 }
 
-// Composant Dashboard.
+// Composant principal du Dashboard.
 function Dashboard({
   quests,
   onAddQuest,
   isLoading,
   error,
+  onDeleteQuest,
 }: DashboardProps) {
 
   // Stocke la quête actuellement sélectionnée.
@@ -56,8 +59,7 @@ function Dashboard({
     return searchMatch && filterMatch;
   });
 
-  // Si les quêtes sont encore en chargement,
-  // on affiche un message.
+  // Si les quêtes sont encore en chargement, on affiche un message.
   if (isLoading) {
     return (
       <main className="dashboard">
@@ -66,8 +68,7 @@ function Dashboard({
     );
   }
 
-  // Si une erreur est survenue pendant la récupération,
-  // on affiche le message d'erreur.
+  // Si une erreur est survenue pendant la récupération, on affiche le message.
   if (error) {
     return (
       <main className="dashboard">
@@ -76,17 +77,16 @@ function Dashboard({
     );
   }
 
-  // Affichage principal du Dashboard.
   return (
     <main className="dashboard">
 
-      {/* Section d'introduction du Dashboard. */}
+      {/* Introduction du Dashboard. */}
       <section className="dashboard-intro">
 
         {/* Titre principal. */}
         <h2>TABLEAU DES QUÊTES</h2>
 
-        {/* Description du tableau de bord. */}
+        {/* Description du Dashboard. */}
         <p>
           Organisez les missions de la guilde, envoyez vos aventuriers
           à l’aventure et récoltez gloire et récompenses.
@@ -173,7 +173,13 @@ function Dashboard({
                 // Une carte représente une quête.
                 <article
                   key={quest.id}
-                  className={`quest-card ${quest.difficulte.toLowerCase()}`}
+
+                  // La couleur de la carte dépend maintenant du statut.
+                  className={`quest-card ${quest.statut
+                    .toLowerCase()
+                    .replace(" ", "-")}`}
+
+                  // Un clic sur la carte sélectionne la quête.
                   onClick={() => setSelectedQuest(quest)}
                 >
 
@@ -207,6 +213,21 @@ function Dashboard({
                       >
                         {quest.statut}
                       </span>
+
+                      {/* Bouton permettant de supprimer la quête. */}
+                      <button
+                        className="delete-button"
+                        onClick={(event) => {
+
+                          // Empêche le clic sur le bouton de sélectionner la carte.
+                          event.stopPropagation();
+
+                          // Demande au parent de supprimer la quête.
+                          onDeleteQuest(quest.id);
+                        }}
+                      >
+                        X
+                      </button>
 
                     </div>
 
@@ -307,5 +328,5 @@ function Dashboard({
   );
 }
 
-// On exporte le composant Dashboard.
+// On exporte le Dashboard pour pouvoir l'utiliser dans App.tsx.
 export default Dashboard;

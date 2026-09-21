@@ -1,114 +1,70 @@
 .quest-form-background {
-  min-height: calc(100vh - 90px);
-  padding: 20px 40px 50px;
+  min-height: calc(100vh - 100px);
+  padding: 60px;
   background: linear-gradient(
     to bottom,
     #ffe5a3,
-    #fffde8
-  );
+    #fffde8);
   box-sizing: border-box;
 }
-
-/* BOUTON RETOUR */
-
-.back-button {
-  display: block;
-  margin: 0 0 0 0;
-  padding: 7px 16px;
-
-  border: none;
-  border-radius: 20px;
-
-  background-color: #e94b4b;
-  color: white;
-
-  font-size: 11px;
-  font-weight: 600;
-
-  cursor: pointer;
-}
-
-.back-button:hover {
-  background-color: #d93d3d;
-}
-
-/* INTRODUCTION */
 
 .quest-form-intro {
   text-align: center;
-  margin-bottom: 10px;
+  margin: 10px;
 }
 
 .quest-form-intro h2 {
-  margin: 0 0 12px;
-
-  color: #f01818;
-
-  font-size: 21px;
-  font-weight: 600;
+  margin: 10px;
+  color: #e21d25;
+  font-size: 30px;
+  font-weight: 800;
 }
 
 .quest-form-intro p {
-  margin: 0;
-
+  margin: 5px;
   color: #777;
-
-  font-size: 14px;
+  font-size: 25px;
 }
-
-/* FORMULAIRE */
 
 .quest-form {
   width: 100%;
-  max-width: 700px;
-
-  margin: 10px auto 0;
-  padding: 14px 16px 12px;
-
+  max-width: 850px;
+  margin: 30px auto 0;
+  padding: 28px 32px 25px;
   border: 2px solid #ff5757;
-
   background-color: #fffef5;
-
   box-sizing: border-box;
 }
-
-/* CHAMPS */
 
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
 }
 
 .form-field.full-width {
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 .form-field label {
   color: #222;
-
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .form-field input,
 .form-field select {
-  height: 25px;
-
-  padding: 4px 10px;
-
+  height: 38px;
+  padding: 7px 13px;
   border: none;
-  border-radius: 15px;
-
+  border-radius: 20px;
   background-color: #fff1d2;
   color: #555;
-
-  font-size: 10px;
-
+  font-size: 15px;
   outline: none;
-
   box-sizing: border-box;
+  width: 100%;
 }
 
 .form-field input:focus,
@@ -118,56 +74,41 @@
 
 .form-field input::placeholder {
   color: #999;
-  font-size: 9px;
+  font-size: 15px;
 }
 
-/* ENLEVER LES FLÈCHES DES CHAMPS NUMÉRIQUES */
 
 .form-field input[type="number"]::-webkit-inner-spin-button,
 .form-field input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 .form-field input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
-/* LIGNES */
-
 .form-row {
   display: grid;
-
   grid-template-columns: repeat(3, 1fr);
-
-  gap: 25px;
-
-  margin-bottom: 12px;
+  gap: 24px;
+  margin-bottom: 18px;
 }
-
-/* ACTIONS */
 
 .form-actions {
   display: flex;
-
   justify-content: flex-end;
-
   gap: 12px;
-
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .cancel-button,
 .create-button {
-  padding: 6px 18px;
-
+  padding: 15px 20px;
   border: none;
-  border-radius: 15px;
-
-  font-size: 10px;
+  border-radius: 20px;
+  font-size: 15px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -189,19 +130,8 @@
   background-color: #72df90;
 }
 
-/* RESPONSIVE */
-
-@media (max-width: 700px) {
-  .quest-form-background {
-    padding: 20px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .form-actions {
-    justify-content: center;
-  }
+.form-error {
+  color: #d93636;
+  font-size: 12px;
+  margin: 8px 0;
 }

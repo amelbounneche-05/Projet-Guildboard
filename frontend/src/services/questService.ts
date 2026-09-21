@@ -1,92 +1,54 @@
-// On importe la fonction apiRequest depuis api.ts.
-// Elle nous permet de communiquer avec le backend Spring Boot.
+// Imports functions to communicate with the Spring Boot server
 import { apiRequest } from "./api";
-
-// On importe le type Quete depuis notre fichier quest.ts.
-// Cela permet à TypeScript de savoir à quoi ressemble une quête.
 import type { Quete } from "../types/quest";
 
-
-// Cette fonction permet de récupérer toutes les quêtes.
-
-// "async" signifie que la fonction va effectuer
-// une opération qui peut prendre un peu de temps.
-// Ici, elle attend la réponse du backend.
+// Fetches all quests - waiting for BK response
 export async function getQuetes(): Promise<Quete[]> {
 
-  // On appelle apiRequest avec la route de notre backend.
-  // Le backend possède cette route dans QueteController :
-  // GET /api/quetes
-  //
-  // <Quete[]> indique que nous attendons
-  // un tableau de quêtes en réponse.
+  // ENvoi requête avec apiRequest côté backend auquel on attend un tableau de quête
   return apiRequest<Quete[]>("/api/quetes");
 }
 
-
-// Cette fonction permet de récupérer une seule quête
-// grâce à son identifiant.
+// Fetches a single quest via (id) - returns one quest
 export async function getQueteById(id: number): Promise<Quete> {
-
-  // On ajoute l'identifiant à la route.
-  // Par exemple, si id = 3 :
-  // /api/quetes/3
-  //
-  // <Quete> indique que le backend doit retourner
-  // une seule quête.
   return apiRequest<Quete>(`/api/quetes/${id}`);
 }
 
-
-// Cette fonction permet de créer une nouvelle quête.
-//
-// Omit<Quete, "id"> signifie qu'on utilise tous les champs
-// de Quete sauf "id".
-// C'est normal car l'identifiant sera créé par le backend.
+// Create quest - no id (backend gives it)
 export async function createQuete(
   quete: Omit<Quete, "id">
 ): Promise<Quete> {
 
-  // On envoie une requête POST vers /api/quetes.
   return apiRequest<Quete>("/api/quetes", {
-
-    // POST sert à créer une nouvelle donnée.
     method: "POST",
 
-    // JSON.stringify transforme notre objet JavaScript
-    // en texte JSON compréhensible par Spring Boot.
+    // Translation between JS and JSON (Spring Boot)
     body: JSON.stringify(quete),
   });
 }
 
-
-// Cette fonction permet de modifier une quête existante.
+//Function to modify an existing quest
 export async function updateQuete(
   id: number,
   quete: Omit<Quete, "id">
 ): Promise<Quete> {
 
-  // On envoie la requête vers la quête correspondant à son id.
-  // Exemple : /api/quetes/3
+  // Sends the request to the quest matching this id
   return apiRequest<Quete>(`/api/quetes/${id}`, {
 
-    // PUT sert à modifier une donnée existante.
+    // Replace the data
     method: "PUT",
 
-    // On transforme les données de la quête en JSON
-    // avant de les envoyer au backend.
+    // Translates the quest into JSON before sending to BK
     body: JSON.stringify(quete),
   });
 }
 
-
-// Cette fonction permet de supprimer une quête.
 export async function deleteQuete(id: number): Promise<void> {
 
-  // On envoie une requête DELETE vers la quête concernée.
+  // Sends a DELETE request to the target quest
   await apiRequest<void>(`/api/quetes/${id}`, {
 
-    // DELETE sert à supprimer une donnée.
     method: "DELETE",
   });
 }
