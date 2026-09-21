@@ -15,14 +15,14 @@
 }
 
 .dashboard-intro h2 {
-  margin: 0 0 8px;
+  margin: 10px;
   color: #e21d25;
-  font-size: 22px;
+  font-size: 25px;
 }
 
 .dashboard-intro p {
   margin: 0;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .add-quest-button {
@@ -31,7 +31,7 @@
   bottom: 0;
   padding: 8px 18px;
   border: none;
-  border-radius: 20px;
+  border-radius: 25px;
   background-color: #d93636;
   color: white;
   font-weight: 600;
@@ -62,7 +62,7 @@
   margin: 0 0 18px;
   text-align: center;
   color: #e21d25;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .quest-search {
@@ -72,7 +72,7 @@
   border: none;
   border-radius: 20px;
   background-color: #fff1c9;
-  font-size: 11px;
+  font-size: 15px;
   outline: none;
 }
 
@@ -87,7 +87,7 @@
   border-radius: 15px;
   padding: 6px 12px;
   background-color: #fff1c9;
-  font-size: 11px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -99,7 +99,7 @@
 .quest-cards {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .quest-card {
@@ -139,12 +139,12 @@
 
 .quest-card h4 {
   margin: 0 0 2px;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .quest-card p {
   margin: 0 0 5px;
-  font-size: 9px;
+  font-size: 15px;
 }
 
 /* INFOS CARTE */
@@ -153,7 +153,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 9px;
+  font-size: 13px;
 }
 
 .status {
@@ -224,7 +224,7 @@
 .empty-quest p {
   margin: 0 0 8px;
   color: #777;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .empty-quest span {
@@ -233,7 +233,7 @@
 }
 
 .quest-selected-content {
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .quest-selected-content h4 {
