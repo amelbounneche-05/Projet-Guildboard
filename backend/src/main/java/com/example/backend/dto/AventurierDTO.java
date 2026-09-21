@@ -14,9 +14,11 @@ public class AventurierDTO {
 
     // Name of the adventurer.
     // @NotBlank means the name cannot be null, empty or only spaces.
-    // @Size(max = 50) limits the name to 50 characters.
+    // @Size(max = 50) 
+    //limits the name to 50 characters.
+    // @Size (min = 2)
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 8)
     private String nom;
 
     // Class of the adventurer.
